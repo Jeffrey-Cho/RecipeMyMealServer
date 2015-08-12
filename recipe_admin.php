@@ -110,37 +110,34 @@ Recipe Name: <input type="text" name="recipe_name" value=""/>&nbsp;&nbsp;Image U
 <h1>Current Recipe List</h1>
 
 <table>
-<tr><td>Name</td></tr>
+<tr><td>Name</td><td width='50'>Image</td><td width='70'>Material Hash</td><td width='70'>Tool Hash</td><td width='100'>Materials</td></tr>
 
 <?
 
-$query2 = "SELECT name FROM recipes";
-$result2 = mysql_query($query2) or die(mysql_error());
+$query = "SELECT name, img_url, mhash+0 as materialHash, thash+0 as toolHash, content FROM recipes";
+$result = mysql_query($query) or die(mysql_error());
 
-if (mysql_num_rows($result2) > 0) {
-    echo "fetch rows";
-    while ($row2 = mysql_fetch_arrary($result2)) {
-        echo "while statement";
-        echo $row2["name"];
-        
+if (mysql_num_rows($result) > 0) {
+    
+    while ($row = mysql_fetch_array($result)) {
         $recipes = array();
-//        $meterials = array();
-        $recipes["name"] = $row2["name"];
-//        $recipes["mhash"] = $row["mhash"];
-//        $recipes["thash"] = $row["thash"];
-//        
-//        echo $row["name"];
-//        echo $row["mhash"];
+        $meterials = array();
+        $recipes['name'] = $row['name'];
+        $recipes['mhash'] = $row['materialHash'];
+        $recipes['thash'] = $row['toolHash'];
+        $recipes['url'] = $row['img_url'];
         
-//        $meterials = rehash($row["mhash"]);
+        //$meterials = rehash($row['materialHash']);
         
-        echo "<tr><td>".$recipes["name"]."</td></tr>";
-//        echo "<td>".$recipes["mhash"]."</td>";
-//        echo "<td>";
+        echo "<tr><td>".$recipes['name']."</td>";
+        echo "<td><img src='".$recipes['url']."' width='30' height='30'></td>";
+        echo "<td>".$recipes['mhash']."</td>";
+        echo "<td>".$recipes['thash']."</td>";
+        echo "<td>Test";
 //        foreach($meterials as $value) {
-//            echo $value["name"].", ";
+//            echo $value['name'].", ";
 //        }
-//        echo "</td></tr>";
+        echo "</td></tr>";
 
     }
 }
