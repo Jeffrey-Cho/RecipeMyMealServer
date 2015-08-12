@@ -21,11 +21,8 @@ function redirect($url){
     }    
 }
 
-echo $_POST['tname'];
-echo $_POST['tbit'];
-
 if (isset($_POST['tname']) && isset($_POST['tbit'])) {
-    $query = "INSERT INTO tools(name, position) values('".$_POST['tname']."',".$_POST['tbit'].")";
+    $query = "INSERT INTO tools(name, position, url) values('".$_POST['tname']."',".$_POST['tbit'].",'".$_POST['url']."')";
     //echo $query;
     $result = mysql_query($query) or die(mysql_error()); 
     redirect("./material_tools_admin.php");

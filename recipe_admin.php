@@ -17,13 +17,14 @@ $db = new DB_CONNECT();
 <h1>Recipe Add page</h1>
 <h5>Please check your material and add recipe name.</h5>
 
-<br /><br />
+<br />
 
 <form id="add_recipe_form" action="add_recipe.php" method="post">
 
 <?
 
 $all_material = array();
+$all_tools = array();
 
 function rehash($mhash){
     
@@ -37,6 +38,10 @@ function rehash($mhash){
     }
     return $result_array;
 }
+
+
+echo "<h3>Material list</h3>";
+echo "<br>";
 
 // get all products from products table
 $result = mysql_query("SELECT name, position+0 as BIT FROM material") or die(mysql_error());
@@ -64,11 +69,41 @@ if (mysql_num_rows($result) > 0) {
         echo "&nbsp;&nbsp;";
         if (!($cnt%10)) echo "<br>";
     }
+}
+
+
+echo "<h3>Tool list</h3>";
+echo "<br>";
+
+$result = mysql_query("SELECT name, position+0 as BIT FROM tools") or die(mysql_error());
+
+if (mysql_num_rows($result) > 0) {
+    
+    $cnt = 0;
+    
+    while ($row = mysql_fetch_array($result)) {
+        // temp user array
+        $cnt++;
+        $product = array();
+        $product["name"] = $row["name"];
+        $product["BIT"] = $row["BIT"];
+        
+        array_push($all_tools, $product);
+        
+        echo "<input type='checkbox' name='";
+        echo "toolcheck[]";
+        echo "' value='";
+        echo $row["BIT"];
+        echo "'>";
+        echo $row["name"];
+        echo "&nbsp;&nbsp;";
+        if (!($cnt%10)) echo "<br>";
     }
+}
 
 ?>
 <br /><br /><br />
-Recipe Name: <input type="text" name="recipe_name" value=""/> <input type="submit" value="Add"/>
+Recipe Name: <input type="text" name="recipe_name" value=""/>&nbsp;&nbsp;Image URL<input type="text" name="url" id="url" value=""/> <input type="submit" value="Add"/>
 </form>
 
 <br />

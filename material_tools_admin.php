@@ -17,30 +17,22 @@ $db = new DB_CONNECT();
 <h1>Material Table</h1>
 <h5>Please input material name and bit position number as integer. e.g. 2048 </h5>
 <table>
-<tr><td>Name</td><td>BIT position</td></tr>
+<tr><td>Name</td><td>BIT position</td><td>Image</td></tr>
 <?
 // get all products from products table
-$result = mysql_query("SELECT name, position+0 as BIT FROM material") or die(mysql_error());
+$result = mysql_query("SELECT name, position+0 as BIT, url FROM material") or die(mysql_error());
 
 // check for empty result
 if (mysql_num_rows($result) > 0) {
     
     while ($row = mysql_fetch_array($result)) {
-        // temp user array
-        $product = array();
-        $product["name"] = $row["name"];
-        $product["BIT"] = $row["BIT"];
-        echo "<tr><td>";
-        echo $row["name"];
-        echo "</td><td>";
-        echo $row["BIT"];
-        echo "</td></tr>";
+        echo "<tr><td>".$row["name"]."</td><td>".$row["BIT"]."</td><td><img src='".$row["url"]."' height='30' width='30'></td><tr>";
     }
 }
 ?>
 </table><br /><br />
 <form id="material-form" action="add_material.php" method="post">
-Name: <input type="text" name="mname" id="mname" value="" />&nbsp;&nbsp;Bit number:<input type="text" name="mbit" id="mbit" value=""/><input type="submit" value="Add"/>
+Name: <input type="text" name="mname" id="mname" value="" />&nbsp;&nbsp;Bit number:<input type="text" name="mbit" id="mbit" value=""/>&nbsp;&nbsp;Image URL: <input type="text" name="url" id="url" value=""/><input type="submit" value="Add"/>
 </form>
 
 <br />
@@ -48,23 +40,15 @@ Name: <input type="text" name="mname" id="mname" value="" />&nbsp;&nbsp;Bit numb
 <h1>Tools Table</h1>
 <h5>Please input material name and bit position number as integer. e.g. 2048 </h5>
 <table>
-<tr><td>Name</td><td>BIT position</td></tr>
+<tr><td>Name</td><td>BIT position</td><td>Image</td></tr>
 <?
-$result = mysql_query("SELECT name, position+0 as BIT FROM tools") or die(mysql_error());
+$result = mysql_query("SELECT name, position+0 as BIT, url FROM tools") or die(mysql_error());
 
 // check for empty result
 if (mysql_num_rows($result) > 0) {
     
     while ($row = mysql_fetch_array($result)) {
-        // temp user array
-        $product = array();
-        $product["name"] = $row["name"];
-        $product["BIT"] = $row["BIT"];
-        echo "<tr><td>";
-        echo $row["name"];
-        echo "</td><td>";
-        echo $row["BIT"];
-        echo "</td></tr>";
+       echo "<tr><td>".$row["name"]."</td><td>".$row["BIT"]."</td><td><img src='".$row["url"]."' height='30' width='30'></td></tr>";
     }
     
 }
@@ -72,7 +56,7 @@ if (mysql_num_rows($result) > 0) {
 
 </table><br /><br />
 <form id="material-form" action="add_tools.php" method="post">
-Name: <input type="text" name="tname" id="tname" value="" />&nbsp;&nbsp;Bit number:<input type="text" name="tbit" id="tbit" value=""/><input type="submit" value="Add"/>
+Name: <input type="text" name="tname" id="tname" value="" />&nbsp;&nbsp;Bit number:<input type="text" name="tbit" id="tbit" value=""/>&nbsp;&nbsp;Image URL<input type="text" name="url" id="url" value=""/><input type="submit" value="Add"/>
 </form>
 
 <br />

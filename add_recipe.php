@@ -6,8 +6,12 @@
  */
  
 $checkboxes = array();
+$toolcheck = array();
 $checkboxes = $_POST['checkedbox'];
+$toolcheck = $_POST['toolcheck'];
 $name = $_POST['recipe_name'];
+$url=$_POST['url'];
+$content = "This is sample content.";
 
 // include db connect class
 require_once __DIR__ . '/db_connect.php';
@@ -40,21 +44,25 @@ function redirect($url){
 //    return $resultHash;
 //}
 
-$resultHash=0;
-
-echo $PHP_INT_MAX;
+$resultHash = 0;
+$toolhash = 0;
 
 foreach ($checkboxes as $checkboxes=>$value) {
-    echo "checkbox : ".$value."<br />";
-    
-    $resultHash = $resultHash | $value;
+    //echo "checkbox : ".$value."<br />";
+     $resultHash = $resultHash | $value;
 }
+
+foreach ($toolcheck as $toolcheck=>$value) {
+    //echo "checkbox : ".$value."<br />";
+     $toolhash = $toolhash | $value;
+}
+
 
 //echo $_POST["recipe_name"];
 
-$query = "INSERT INTO recipes(name, mhash) values('".$name."',".$resultHash.")";
+$query = "INSERT INTO recipes(name, img_url, mhash, thash, content) values('".$name."','".$url."',".$resultHash.",".$toolhash.",'".$content."')";
 
-echo $query;
+//echo $query;
 
 $result = mysql_query($query) or die(mysql_error());
 
