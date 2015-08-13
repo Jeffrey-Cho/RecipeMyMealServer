@@ -1,13 +1,16 @@
 <?php
-
+header("Content-Type: text/html; charset=UTF-8");
 /*
  * Following code will list all the products
  */
 
 // array for JSON response
 $response = array();
-$name = $_POST['name'];
+$name = $_GET['name'];
+$searchName = utf8_decode($name);
 
+//echo $name;
+//echo $searchName;
 
 // include db connect class
 require_once __DIR__ . '/db_connect.php';
@@ -17,7 +20,9 @@ $db = new DB_CONNECT();
 
 // get all products from products table
 
-$query = "SELECT name, img_url, mhash, thash, content FROM recipes WHERE name like '".$name."'";
+$query = "SELECT name, img_url, mhash, thash, content FROM recipes WHERE name like '%".$name."%'";
+
+//echo $query;
 //$query = "SELECT name, img_url, mhash, thash, content FROM recipes";
 $result = mysql_query($query) or die(mysql_error());
 
@@ -48,6 +53,8 @@ if (mysql_num_rows($result) > 0) {
     // no products found
     $response["success"] = 0;
     $response["message"] = "No products found";
+    $response["encoding"] = mb_detect_encoding($name);
+    $response["name"] = $name;
 
     // echo no users JSON
     echo json_encode($response);
